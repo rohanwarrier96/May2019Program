@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.mastek.training.hrapp.apis.DepartmentService;
 import com.mastek.training.hrapp.entities.Department;
-import com.mastek.training.hrapp.entities.Employee;
 
 //Initialize the JUnit Test when Spring Boot Application Environment
 //Spring Boot Test: used to test Spring Application Context

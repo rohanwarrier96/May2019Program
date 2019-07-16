@@ -1,14 +1,19 @@
 package com.mastek.training.hrapp.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +36,24 @@ public class Department implements Serializable {
 	private String name;
 	@Value("Location")
 	private String location;
+	// One department has many Employees
+	private Set<Employee> members = new HashSet<>();
+	
+	//@OneToMany: used on the get method of set to configure association
+	//fetch=Lazy: delay the initialisation until method getMembers() is called
+	//using additional select query.
+	//EAGER: Initialise the collection on entity find Post load event
+	//cascade= All the Entity operation done on Department would be performed on each associated employee object
+	//ALL:[Persist,Merge,Delete,Refresh]
+	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL, mappedBy="currentDepartment")
+	public Set<Employee> getMembers() {
+		return members;
+	}
+
+	public void setMembers(Set<Employee> members) {
+		this.members = members;
+	}
+	
 	
 	public Department() {
 		System.out.println("Department Created");
@@ -70,6 +93,7 @@ public class Department implements Serializable {
 		return "Department [getDeptno()=" + getDeptno() + ", getName()=" + getName() + ", getLocation()="
 				+ getLocation() + "]";
 	}
+
 	
 	
 	
